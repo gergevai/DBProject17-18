@@ -1,0 +1,32 @@
+COPY "MainT" FROM 'D:\db2_project_data\Test.csv' WITH CSV HEADER DELIMITER ','
+VACUUM FULL "MainT"
+TRUNCATE TABLE "MainT"
+ALTER SYSTEM SET shared_buffers TO '512 MB'
+
+--1.a.i
+SELECT id,max(kilometers) FROM "MainT" 
+WHERE timestamp <='2016-12-05 06:00:00' AND kilometers = (
+    SELECT max(kilometers) 
+ 	FROM "MainT" 
+ 	WHERE timestamp <='2016-12-05 06:00:00')
+GROUP BY id;
+
+--1.a.ii
+SELECT avg(kilometers) FROM "MainT"
+WHERE EXTRACT(month FROM timestamp) = EXTRACT(month FROM (SELECT max(timestamp) FROM "MainT"));
+
+--1.a.iii
+SELECT id, EXTRACT(month FROM timestamp),sum(kilometers) FROM "MainT"
+GROUP BY id, EXTRACT(month FROM timestamp);
+
+--1.a.iv
+SELECT id,avg(kilometers) FROM "MainT"
+GROUP BY id
+
+--1.a.v
+SELECT region_id,avg(kilometers) FROM "MainT"
+GROUP BY region_id
+
+
+
+
