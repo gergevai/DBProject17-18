@@ -2,28 +2,28 @@
 --each partition is one month in range
 CREATE TABLE p1 (
 CONSTRAINT timestamp_date CHECK (((timestamp >= '2016-12-01 00:00:00') AND (timestamp < '2016-12-31 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p2 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-01-01 00:00:00') AND (timestamp<='2017-01-31 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p3 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-02-01 00:00:00') AND (timestamp<='2017-02-28 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p4 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-03-01 00:00:00') AND (timestamp<='2017-03-31 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p5 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-04-01 00:00:00') AND (timestamp<='2017-04-30 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p6 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-05-01 00:00:00') AND (timestamp<='2017-05-31 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p7 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-06-01 00:00:00') AND (timestamp<='2017-06-30 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 CREATE TABLE p8 (
 CONSTRAINT timestamp_date CHECK (((timestamp>='2017-07-01 00:00:00') AND (timestamp<='2017-07-31 23:59:59')))
-) INHERITS (maint);
+) INHERITS (log_records);
 
 --DROP PARTITIONS
 DROP TABLE p1;
@@ -84,7 +84,7 @@ LANGUAGE plpgsql;
 DROP FUNCTION timestamp_check()
 
 CREATE TRIGGER timestamp_trigger
-    BEFORE INSERT ON maint
+    BEFORE INSERT ON log_records
     FOR EACH ROW EXECUTE PROCEDURE timestamp_check();
 
 DROP TRIGGER timestamp_trigger
